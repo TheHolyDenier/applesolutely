@@ -1,7 +1,5 @@
 import 'package:hive/hive.dart';
 
-import './item_model.dart';
-
 part 'dictionary_model.g.dart';
 
 @HiveType(typeId: 0)
