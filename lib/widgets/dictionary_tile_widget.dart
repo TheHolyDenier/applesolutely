@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../models/dictionary_model.dart';
+import '../services/colors_service.dart';
 
 class DictionaryTileWidget extends StatefulWidget {
   final Dictionary dictionary;
@@ -24,9 +25,9 @@ class _DictionaryTileWidgetState extends State<DictionaryTileWidget> {
           bottom: 0,
           left: 0,
           child: Container(
-            color: Colors.red,
+            color: UtilsService.dictionaryColors[widget.dictionary.key],
             child: Padding(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Text(widget.dictionary.name,
