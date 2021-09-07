@@ -59,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
                 (BuildContext context, int index) {
                   final Dictionary? d = _dictionaries[index];
                   return d != null
-                      ? GestureDetector(
+                      ? InkWell(
                           onLongPress: () =>
                               _addRemoveDictionaryFromRemoveList(index),
                           onTap: () {

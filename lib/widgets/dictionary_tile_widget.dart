@@ -41,24 +41,26 @@ class _DictionaryTileWidgetState extends State<DictionaryTileWidget> {
                     ? Text(widget.dictionary.summary!)
                     : null,
                 trailing: IconButton(
-                  onPressed: () {
-                    widget.dictionary.isFavorite =
-                        !widget.dictionary.isFavorite;
-                    widget.dictionary.save();
-                    setState(() {});
-                  },
+                  onPressed: widget.selected
+                      ? null
+                      : () {
+                          widget.dictionary.isFavorite =
+                              !widget.dictionary.isFavorite;
+                          widget.dictionary.save();
+                          setState(() {});
+                        },
                   icon: Icon(
                       widget.dictionary.isFavorite
                           ? Icons.favorite
                           : Icons.favorite_outline,
                       color: widget.dictionary.isFavorite
-                          ? Colors.red
-                          : Colors.grey),
+                          ? Theme.of(context).colorScheme.secondary
+                          : Theme.of(context).colorScheme.primaryVariant),
                 ),
-                onTap: () {},
                 contentPadding: const EdgeInsets.all(10.0),
                 selected: widget.selected,
-                selectedTileColor: Colors.lightBlueAccent,
+                selectedTileColor:
+                    Theme.of(context).colorScheme.primary.withAlpha(40),
               ),
             ],
           ),
