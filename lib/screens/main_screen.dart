@@ -1,7 +1,7 @@
 import 'package:applesolutely/models/dictionary_model.dart';
 import 'package:applesolutely/services/box_service.dart';
+import 'package:applesolutely/widgets/dictionary_form_widget.dart';
 import 'package:applesolutely/widgets/dictionary_tile_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -43,9 +43,13 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 if (toRemove.isNotEmpty)
                   IconButton(
-                    onPressed: () => _removeDictionaries(),
+                    onPressed: _removeDictionaries,
                     icon: const Icon(Icons.delete_forever_outlined),
-                  )
+                  ),
+                if (!toRemove.isNotEmpty)
+                  IconButton(
+                      onPressed: _openBottomSheet,
+                      icon: const Icon(Icons.add_outlined)),
               ],
             ),
             SliverList(
@@ -68,20 +72,6 @@ class _MainScreenState extends State<MainScreen> {
             )
           ],
         ),
-        bottomNavigationBar: BottomAppBar(
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: OverflowBar(
-              alignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[Text('add new dictionary somehow')],
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
     );
   }
@@ -95,5 +85,18 @@ class _MainScreenState extends State<MainScreen> {
   void _removeDictionaries() {
     BoxService.removeDictionaries(toRemove);
     setState(() {});
+  }
+
+  void _openBottomSheet() {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: const DictionaryFormWidget(),
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        );
+      },
+    );
   }
 }
