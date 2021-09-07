@@ -1,11 +1,11 @@
 import 'package:applesolutely/services/colors_service.dart';
 import 'package:flutter/material.dart';
 
-class ImageWidget extends StatelessWidget {
+class AvatarWidget extends StatelessWidget {
   final String name;
   final String? image;
   final Color? color;
-  const ImageWidget(this.name, {Key? key, this.image, this.color})
+  const AvatarWidget(this.name, {Key? key, this.image, this.color})
       : super(key: key);
 
   @override

@@ -1,10 +1,10 @@
 import 'package:applesolutely/models/dictionary_model.dart';
 import 'package:applesolutely/services/box_service.dart';
-import 'package:applesolutely/widgets/dictionary_form_widget.dart';
 import 'package:applesolutely/widgets/dictionary_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'dictionary_form_widget.dart';
 import 'dictionary_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -54,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 if (!toRemove.isNotEmpty)
                   IconButton(
-                      onPressed: _openBottomSheet,
+                      onPressed: _newDictionary,
                       icon: const Icon(Icons.add_outlined)),
               ],
             ),
@@ -115,16 +115,13 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.pop(context);
   }
 
-  void _openBottomSheet() {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: DictionaryFormWidget(_addDictionary),
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-        );
-      },
+  void _newDictionary() {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => DictionaryFormScreen(_addDictionary),
+        fullscreenDialog: true,
+      ),
     );
   }
 }
