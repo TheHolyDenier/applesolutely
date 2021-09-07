@@ -87,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   void _addRemoveDictionaryFromRemoveList(int index) {
-    var d = BoxService.dictionaries.getAt(index)!.key;
+    var d = _dictionaries[index].key;
     toRemove.contains(d) ? toRemove.remove(d) : toRemove.add(d);
     setState(() {});
   }

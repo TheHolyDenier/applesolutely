@@ -8,6 +8,10 @@ class Dictionary extends HiveObject {
   String name;
   @HiveField(1)
   String? image;
+  @HiveField(2)
+  String? summary;
+  @HiveField(3)
+  bool isFavorite;
 
-  Dictionary(this.name, {this.image});
+  Dictionary(this.name, {this.image, this.summary, this.isFavorite = false});
 }

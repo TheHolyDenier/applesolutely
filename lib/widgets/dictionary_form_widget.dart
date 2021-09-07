@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:applesolutely/services/box_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -40,8 +38,6 @@ class _DictionaryFormWidgetState extends State<DictionaryFormWidget> {
                       if (value.length < 2) {
                         return 'Dictionaries\' names must be at least 2 characters';
                       }
-                      stderr.writeln(
-                          'tmp ${BoxService.dictionaries.values.any((element) => element.name == value.trim())}');
                       if (BoxService.dictionaries.values
                           .any((element) => element.name == value.trim())) {
                         return 'A dictionary with the same name already exists';

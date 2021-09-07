@@ -39,6 +39,12 @@ class _DictionaryTileWidgetState extends State<DictionaryTileWidget> {
                       style: Theme.of(context).textTheme.headline5,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis),
+                  subtitle: widget.dictionary.summary != null
+                      ? Text(widget.dictionary.summary!)
+                      : null,
+                  trailing: Icon(!widget.dictionary.isFavorite
+                      ? Icons.favorite_outline
+                      : Icons.favorite),
                 ),
               ),
             ],

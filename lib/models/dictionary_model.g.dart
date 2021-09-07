@@ -19,17 +19,23 @@ class DictionaryAdapter extends TypeAdapter<Dictionary> {
     return Dictionary(
       fields[0] as String,
       image: fields[1] as String?,
+      summary: fields[2] as String?,
+      isFavorite: fields[3] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Dictionary obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.image);
+      ..write(obj.image)
+      ..writeByte(2)
+      ..write(obj.summary)
+      ..writeByte(3)
+      ..write(obj.isFavorite);
   }
 
   @override
