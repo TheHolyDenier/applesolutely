@@ -24,37 +24,44 @@ class _DictionaryTileWidgetState extends State<DictionaryTileWidget> {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: ListTile(
-                  leading: SizedBox(
-                    width: 50,
-                    height: 50,
-                    child: ImageWidget(widget.dictionary.name,
-                        image: widget.dictionary.image,
-                        color: UtilsService
-                            .dictionaryColors[widget.dictionary.key]),
-                  ),
-                  title: Text(widget.dictionary.name,
-                      style: Theme.of(context).textTheme.headline5,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis),
-                  subtitle: widget.dictionary.summary != null
-                      ? Text(widget.dictionary.summary!)
-                      : null,
-                  trailing: Icon(!widget.dictionary.isFavorite
-                      ? Icons.favorite_outline
-                      : Icons.favorite),
+              ListTile(
+                leading: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: ImageWidget(widget.dictionary.name,
+                      image: widget.dictionary.image,
+                      color:
+                          UtilsService.dictionaryColors[widget.dictionary.key]),
                 ),
+                title: Text(widget.dictionary.name,
+                    style: Theme.of(context).textTheme.headline5,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis),
+                subtitle: widget.dictionary.summary != null
+                    ? Text(widget.dictionary.summary!)
+                    : null,
+                trailing: IconButton(
+                  onPressed: () {
+                    widget.dictionary.isFavorite =
+                        !widget.dictionary.isFavorite;
+                    widget.dictionary.save();
+                    setState(() {});
+                  },
+                  icon: Icon(
+                      widget.dictionary.isFavorite
+                          ? Icons.favorite
+                          : Icons.favorite_outline,
+                      color: widget.dictionary.isFavorite
+                          ? Colors.red
+                          : Colors.grey),
+                ),
+                onTap: () {},
+                contentPadding: const EdgeInsets.all(10.0),
+                selected: widget.selected,
+                selectedTileColor: Colors.lightBlueAccent,
               ),
             ],
           ),
-          if (widget.selected)
-            const Positioned(
-              child: Icon(Icons.check_box),
-              right: 8,
-              top: 8,
-            )
         ],
       ),
     );
