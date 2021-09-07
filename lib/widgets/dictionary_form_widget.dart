@@ -1,12 +1,14 @@
 import 'dart:io';
 
-import 'package:applesolutely/models/dictionary_model.dart';
 import 'package:applesolutely/services/box_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+typedef StringCallback = void Function(String str);
+
 class DictionaryFormWidget extends StatefulWidget {
-  const DictionaryFormWidget({Key? key}) : super(key: key);
+  final StringCallback callback;
+  const DictionaryFormWidget(this.callback, {Key? key}) : super(key: key);
 
   @override
   _DictionaryFormWidgetState createState() => _DictionaryFormWidgetState();
@@ -35,6 +37,9 @@ class _DictionaryFormWidgetState extends State<DictionaryFormWidget> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
                       }
+                      if (value.length < 2) {
+                        return 'Dictionaries\' names must be at least 2 characters';
+                      }
                       stderr.writeln(
                           'tmp ${BoxService.dictionaries.values.any((element) => element.name == value.trim())}');
                       if (BoxService.dictionaries.values
@@ -52,11 +57,8 @@ class _DictionaryFormWidgetState extends State<DictionaryFormWidget> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          BoxService.addDictionary(
-                              Dictionary(_dictionaryController.text.trim()));
-                          Navigator.pop(context);
+                          widget.callback(_dictionaryController.text.trim());
                         }
-                        setState(() {});
                       },
                       child: const Text('Submit'),
                     ),

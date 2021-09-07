@@ -55,19 +55,22 @@ class _MainScreenState extends State<MainScreen> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  final Dictionary d = BoxService.dictionaries.getAt(index)!;
-                  return GestureDetector(
-                    onLongPress: () =>
-                        _addRemoveDictionaryFromRemoveList(index),
-                    onTap: () {
-                      if (toRemove.isNotEmpty) {
-                        _addRemoveDictionaryFromRemoveList(index);
-                      }
-                    },
-                    child: DictionaryTileWidget(d, toRemove.contains(d.key)),
-                  );
+                  final Dictionary? d = BoxService.getDictionary(index);
+                  return d != null
+                      ? GestureDetector(
+                          onLongPress: () =>
+                              _addRemoveDictionaryFromRemoveList(index),
+                          onTap: () {
+                            if (toRemove.isNotEmpty) {
+                              _addRemoveDictionaryFromRemoveList(index);
+                            }
+                          },
+                          child:
+                              DictionaryTileWidget(d, toRemove.contains(d.key)),
+                        )
+                      : Container();
                 },
-                childCount: BoxService.dictionaries.length,
+                childCount: BoxService.countDictionaries(),
               ),
             )
           ],
@@ -87,12 +90,18 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {});
   }
 
+  void _addDictionary(String dictionaryName) {
+    BoxService.addDictionary(Dictionary(dictionaryName));
+    setState(() {});
+    Navigator.pop(context);
+  }
+
   void _openBottomSheet() {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
         return SingleChildScrollView(
-          child: const DictionaryFormWidget(),
+          child: DictionaryFormWidget(_addDictionary),
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         );

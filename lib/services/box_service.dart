@@ -1,9 +1,13 @@
 import 'package:hive/hive.dart';
-import '../models/dictionary_model.dart';
+
 import './colors_service.dart';
+import '../models/dictionary_model.dart';
 
 class BoxService {
   static late Box<Dictionary> dictionaries;
+  static Box<Dictionary> getDictionaries() => BoxService.dictionaries;
+  static Dictionary? getDictionary(int index) =>
+      BoxService.dictionaries.getAt(index);
 
   static void openDictionaryList() {
     BoxService.dictionaries = Hive.box<Dictionary>('dictionaries');
@@ -21,4 +25,6 @@ class BoxService {
     BoxService.dictionaries.deleteAll(toRemove);
     toRemove.clear();
   }
+
+  static int countDictionaries() => BoxService.dictionaries.length;
 }
