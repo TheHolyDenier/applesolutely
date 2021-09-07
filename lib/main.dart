@@ -1,3 +1,4 @@
+import 'package:applesolutely/services/theme_service.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -24,9 +25,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Applesolutely',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeService.get(),
       home: FutureBuilder(
         future: Hive.openBox<Dictionary>('dictionaries'),
         builder: (context, snapshot) {
