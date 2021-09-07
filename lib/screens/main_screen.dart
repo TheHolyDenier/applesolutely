@@ -13,11 +13,13 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  List<Dictionary> _dictionaries = List.empty(growable: true);
   List<dynamic> toRemove = List.empty(growable: true);
 
   @override
   Widget build(BuildContext context) {
     BoxService.openDictionaryList();
+    _getDictionaries();
 
     return SafeArea(
       child: Scaffold(
@@ -55,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  final Dictionary? d = BoxService.getDictionary(index);
+                  final Dictionary? d = _dictionaries[index];
                   return d != null
                       ? GestureDetector(
                           onLongPress: () =>
@@ -77,6 +79,11 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
+  }
+
+  void _getDictionaries() {
+    _dictionaries = BoxService.getDictionaries().values.toList();
+    _dictionaries.sort((a, b) => a.name.compareTo(b.name));
   }
 
   void _addRemoveDictionaryFromRemoveList(int index) {
