@@ -5,7 +5,10 @@ import 'package:applesolutely/widgets/dictionary_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'dictionary_screen.dart';
+
 class MainScreen extends StatefulWidget {
+  static const route = '/main';
   const MainScreen({Key? key}) : super(key: key);
 
   @override
@@ -19,7 +22,8 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     BoxService.openDictionaryList();
-    _getDictionaries();
+    _dictionaries = BoxService.getDictionaries().values.toList();
+    _sortDictionaries();
 
     return SafeArea(
       child: Scaffold(
@@ -65,6 +69,10 @@ class _MainScreenState extends State<MainScreen> {
                           onTap: () {
                             if (toRemove.isNotEmpty) {
                               _addRemoveDictionaryFromRemoveList(index);
+                            } else {
+                              Navigator.pushNamed(
+                                  context, DictionaryScreen.route,
+                                  arguments: d);
                             }
                           },
                           child:
@@ -81,9 +89,13 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  void _getDictionaries() {
-    _dictionaries = BoxService.getDictionaries().values.toList();
-    _dictionaries.sort((a, b) => a.name.compareTo(b.name));
+  void _sortDictionaries() {
+    _dictionaries.sort((a, b) {
+      if (a.isFavorite == b.isFavorite) {
+        return a.name.compareTo(b.name);
+      }
+      return a.isFavorite ? -1 : 1;
+    });
   }
 
   void _addRemoveDictionaryFromRemoveList(int index) {

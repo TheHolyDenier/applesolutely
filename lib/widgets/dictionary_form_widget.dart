@@ -18,51 +18,45 @@ class _DictionaryFormWidgetState extends State<DictionaryFormWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
       padding: const EdgeInsets.all(8.0),
+      height: 75,
       child: Form(
         key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  TextFormField(
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      if (value.length < 2) {
-                        return 'Dictionaries\' names must be at least 2 characters';
-                      }
-                      if (BoxService.dictionaries.values
-                          .any((element) => element.name == value.trim())) {
-                        return 'A dictionary with the same name already exists';
-                      }
-                      return null;
-                    },
-                    controller: _dictionaryController,
-                    decoration:
-                        const InputDecoration(hintText: 'New dictionary name'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          widget.callback(_dictionaryController.text.trim());
-                        }
-                      },
-                      child: const Text('Submit'),
-                    ),
-                  ),
-                ],
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: TextFormField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some text';
+                  }
+                  if (value.length < 2) {
+                    return 'Dictionaries\' names must be at least 2 characters';
+                  }
+                  if (BoxService.dictionaries.values
+                      .any((element) => element.name == value.trim())) {
+                    return 'A dictionary with the same name already exists';
+                  }
+                  return null;
+                },
+                controller: _dictionaryController,
+                decoration:
+                    const InputDecoration(hintText: 'New dictionary name'),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  widget.callback(_dictionaryController.text.trim());
+                }
+              },
+              child: const Text('SUBMIT'),
+            ),
+          ],
         ),
       ),
     );

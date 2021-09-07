@@ -1,13 +1,13 @@
+import 'package:applesolutely/models/collection_model.dart';
+import 'package:applesolutely/models/dictionary_model.dart';
+import 'package:applesolutely/models/element_model.dart';
+import 'package:applesolutely/models/item_model.dart';
+import 'package:applesolutely/screens/dictionary_screen.dart';
+import 'package:applesolutely/screens/main_screen.dart';
 import 'package:applesolutely/services/theme_service.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
-import './models/collection_model.dart';
-import './models/dictionary_model.dart';
-import './models/element_model.dart';
-import './models/item_model.dart';
-import './screens/main_screen.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -40,7 +40,8 @@ class MyApp extends StatelessWidget {
         },
       ),
       routes: {
-        '/main': (context) => const MainScreen(),
+        MainScreen.route: (context) => const MainScreen(),
+        DictionaryScreen.route: (context) => const DictionaryScreen(),
       },
     );
   }
