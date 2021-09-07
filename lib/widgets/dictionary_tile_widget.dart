@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../models/dictionary_model.dart';
-import '../services/colors_service.dart';
 
 class DictionaryTileWidget extends StatefulWidget {
   final Dictionary dictionary;
@@ -17,32 +16,28 @@ class DictionaryTileWidget extends StatefulWidget {
 class _DictionaryTileWidgetState extends State<DictionaryTileWidget> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned(
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 0,
-          child: Container(
-            color: UtilsService.dictionaryColors[widget.dictionary.key],
-            child: Padding(
-              padding: const EdgeInsets.all(5),
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: Text(widget.dictionary.name,
-                    style: Theme.of(context).textTheme.headline1),
+    return Card(
+      child: Stack(
+        children: [
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                leading: Icon(Icons.album),
+                title: Text(widget.dictionary.name,
+                    style: Theme.of(context).textTheme.headline4),
+                subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
               ),
-            ),
+            ],
           ),
-        ),
-        if (widget.selected)
-          const Positioned(
-            child: Icon(Icons.check_box),
-            right: 0,
-            top: 0,
-          )
-      ],
+          if (widget.selected)
+            const Positioned(
+              child: Icon(Icons.check_box),
+              right: 8,
+              top: 8,
+            )
+        ],
+      ),
     );
   }
 }
