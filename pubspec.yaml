@@ -8,6 +8,8 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  get:
+  get_storage:
   flutter:
     sdk: flutter
   hive: ^2.0.4

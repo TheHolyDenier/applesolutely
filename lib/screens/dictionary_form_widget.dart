@@ -6,6 +6,7 @@ import 'package:applesolutely/services/converter_service.dart';
 import 'package:applesolutely/widgets/header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:images_picker/images_picker.dart';
 
 typedef DictionaryCallback = void Function(Dictionary d);
@@ -42,8 +43,8 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
       child: Scaffold(
         appBar: AppBar(
             title: Text(widget.dictionary != null
-                ? 'Edit Dictionary'
-                : 'New Dictionary'),
+                ? 'edit_dictionary'.tr
+                : 'new_dictionary'.tr),
             actions: [
               IconButton(
                 onPressed: () {
