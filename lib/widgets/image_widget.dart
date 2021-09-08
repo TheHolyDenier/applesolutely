@@ -1,4 +1,5 @@
 import 'package:applesolutely/services/colors_service.dart';
+import 'package:applesolutely/services/converter_service.dart';
 import 'package:flutter/material.dart';
 
 class AvatarWidget extends StatelessWidget {
@@ -13,9 +14,8 @@ class AvatarWidget extends StatelessWidget {
     return FittedBox(
       child: image != null && image!.isNotEmpty
           ? CircleAvatar(
-              child: Image.network(
-                  "https://images.unsplash.com/photo-1547721064-da6cfb341d50"),
-            )
+              backgroundImage:
+                  MemoryImage(ConverterService.base64ToImage(image!)))
           : CircleAvatar(
               backgroundColor: color ?? UtilsService.genRandomColor(),
               child: Text(name.substring(0, 2).toUpperCase()),
