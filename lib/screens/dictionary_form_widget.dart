@@ -1,12 +1,13 @@
+import 'package:applesolutely/models/dictionary_model.dart';
 import 'package:applesolutely/services/box_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-typedef StringCallback = void Function(String str);
+typedef DictionaryCallback = void Function(Dictionary d);
 
 class DictionaryFormScreen extends StatefulWidget {
   static const route = '/new_dictionary';
-  final StringCallback callback;
+  final DictionaryCallback callback;
   const DictionaryFormScreen(this.callback, {Key? key}) : super(key: key);
 
   @override
@@ -26,7 +27,10 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
           IconButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                widget.callback(_dictionaryNameController.text.trim());
+                Dictionary d = Dictionary(_dictionaryNameController.text.trim(),
+                    summary: _dictionarySummaryController.text.trim(),
+                    isFavorite: _isFavorite);
+                widget.callback(d);
               }
             },
             icon: const Icon(Icons.save_outlined),

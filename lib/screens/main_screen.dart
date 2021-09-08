@@ -109,8 +109,8 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {});
   }
 
-  void _addDictionary(String dictionaryName) {
-    BoxService.addDictionary(Dictionary(dictionaryName));
+  void _addDictionary(Dictionary dictionary) {
+    BoxService.addDictionary(dictionary);
     setState(() {});
     Navigator.pop(context);
   }
