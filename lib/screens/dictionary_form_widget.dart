@@ -77,35 +77,28 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (_base64Image.isEmpty)
-                          TextButton(
-                            onPressed: _pickPicture,
-                            child: Row(
-                              children: const [
-                                Icon(Icons.add_photo_alternate_outlined),
-                                Text('Pick picture')
-                              ],
-                            ),
+                        TextButton(
+                          onPressed: _pickPicture,
+                          child: Row(
+                            children: const [
+                              Icon(Icons.add_photo_alternate_outlined),
+                              Text('Pick picture')
+                            ],
                           ),
-                        if (_base64Image.isEmpty)
-                          TextButton(
-                            onPressed: _takePicture,
-                            child: Row(
-                              children: const [
-                                Icon(Icons.add_a_photo_outlined),
-                                Text('Take picture')
-                              ],
-                            ),
+                        ),
+                        TextButton(
+                          onPressed: _takePicture,
+                          child: Row(
+                            children: const [
+                              Icon(Icons.add_a_photo_outlined),
+                              Text('Take picture')
+                            ],
                           ),
+                        ),
                         if (_base64Image.isNotEmpty)
-                          TextButton(
+                          IconButton(
                             onPressed: _deletePicture,
-                            child: Row(
-                              children: const [
-                                Icon(Icons.delete),
-                                Text('Delete picture')
-                              ],
-                            ),
+                            icon: const Icon(Icons.delete),
                           ),
                       ],
                     ),
