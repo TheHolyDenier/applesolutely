@@ -29,10 +29,15 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
   String _base64Image = '';
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
     if (widget.dictionary != null) {
       _extractDictionaryValues(widget.dictionary!);
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -72,24 +77,36 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        TextButton(
-                          onPressed: _pickPicture,
-                          child: Row(
-                            children: const [
-                              Icon(Icons.add_photo_alternate_outlined),
-                              Text('Pick picture')
-                            ],
+                        if (_base64Image.isEmpty)
+                          TextButton(
+                            onPressed: _pickPicture,
+                            child: Row(
+                              children: const [
+                                Icon(Icons.add_photo_alternate_outlined),
+                                Text('Pick picture')
+                              ],
+                            ),
                           ),
-                        ),
-                        TextButton(
-                          onPressed: _takePicture,
-                          child: Row(
-                            children: const [
-                              Icon(Icons.add_a_photo_outlined),
-                              Text('Take picture')
-                            ],
+                        if (_base64Image.isEmpty)
+                          TextButton(
+                            onPressed: _takePicture,
+                            child: Row(
+                              children: const [
+                                Icon(Icons.add_a_photo_outlined),
+                                Text('Take picture')
+                              ],
+                            ),
                           ),
-                        ),
+                        if (_base64Image.isNotEmpty)
+                          TextButton(
+                            onPressed: _deletePicture,
+                            child: Row(
+                              children: const [
+                                Icon(Icons.delete),
+                                Text('Delete picture')
+                              ],
+                            ),
+                          ),
                       ],
                     ),
                   ),
@@ -152,7 +169,7 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
     List<Media>? res = await ImagesPicker.pick(
       count: 1,
       pickType: PickType.image,
-      quality: 0.5,
+      quality: 0.1,
       language: Language.English,
       cropOpt: CropOption(
         aspectRatio: CropAspectRatio.wh4x3,
@@ -165,7 +182,7 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
   void _takePicture() async {
     List<Media>? res = await ImagesPicker.openCamera(
       pickType: PickType.image,
-      quality: 0.5,
+      quality: 0.1,
       language: Language.English,
       cropOpt: CropOption(
         aspectRatio: CropAspectRatio.wh4x3,
@@ -175,10 +192,11 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
     _processImage(res);
   }
 
-  void _processImage(List<Media>? res) {
+  void _processImage(List<Media>? res) async {
     if (res != null) {
-      _base64Image = ConverterService.imageToBase64String(File(res[0].path));
-      setState(() {});
+      setState(() {
+        _base64Image = ConverterService.imageToBase64String(File(res[0].path));
+      });
     }
   }
 
@@ -200,5 +218,10 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
     if (d.image != null && d.image!.isNotEmpty) {
       _base64Image = d.image!;
     }
+  }
+
+  void _deletePicture() {
+    _base64Image = '';
+    setState(() {});
   }
 }

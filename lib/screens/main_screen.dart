@@ -73,7 +73,9 @@ class _MainScreenState extends State<MainScreen> {
                               Navigator.pushNamed(
                                       context, DictionaryScreen.route,
                                       arguments: d)
-                                  .then((_) => setState(() {}));
+                                  .then((_) => setState(() {
+                                        _sortDictionaries();
+                                      }));
                             }
                           },
                           child:
@@ -123,7 +125,6 @@ class _MainScreenState extends State<MainScreen> {
         builder: (BuildContext context) => DictionaryFormScreen(_addDictionary),
         fullscreenDialog: true,
       ),
-    ).then((_) => setState(() {}));
-    ;
+    );
   }
 }

@@ -28,10 +28,15 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
               pinned: true,
               snap: true,
               floating: true,
-              expandedHeight: 160.0,
+              expandedHeight: MediaQuery.of(context).size.width / 4 * 3,
               backgroundColor: UtilsService.dictionaryColors[dictionary.key],
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(dictionary.name),
+                stretchModes: const <StretchMode>[
+                  StretchMode.zoomBackground,
+                  StretchMode.blurBackground,
+                  StretchMode.fadeTitle,
+                ],
                 background: Hero(
                     tag: dictionary.key,
                     child: HeaderWidget(
@@ -65,7 +70,6 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
           builder: (BuildContext context) =>
               DictionaryFormScreen(_editDictionary, dictionary: dictionary),
           fullscreenDialog: true),
-    ).then((_) => setState(() {}));
-    ;
+    );
   }
 }
