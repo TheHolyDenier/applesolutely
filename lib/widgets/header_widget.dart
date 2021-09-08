@@ -1,3 +1,4 @@
+import 'package:applesolutely/services/converter_service.dart';
 import 'package:flutter/material.dart';
 
 class HeaderWidget extends StatelessWidget {
@@ -7,11 +8,9 @@ class HeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
-      child: image != null && image!.isNotEmpty
-          ? Image.network(
-              "https://images.unsplash.com/photo-1547721064-da6cfb341d50")
-          : Container(),
-    );
+    return image != null && image!.isNotEmpty
+        ? Image.memory(ConverterService.base64ToImage(image!),
+            fit: BoxFit.cover)
+        : Container();
   }
 }

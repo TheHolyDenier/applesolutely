@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:applesolutely/models/dictionary_model.dart';
 import 'package:applesolutely/services/box_service.dart';
 import 'package:applesolutely/services/converter_service.dart';
+import 'package:applesolutely/widgets/header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:images_picker/images_picker.dart';
@@ -54,13 +55,12 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
               child: Column(
                 children: <Widget>[
                   Container(
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.secondary),
-                      height: MediaQuery.of(context).size.width / 4 * 3,
-                      width: MediaQuery.of(context).size.width,
-                      child: _bytes != null
-                          ? Image.memory(_bytes!, fit: BoxFit.cover)
-                          : Container()),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.secondary),
+                    height: MediaQuery.of(context).size.width / 4 * 3,
+                    width: MediaQuery.of(context).size.width,
+                    child: HeaderWidget(image: _base64Image),
+                  ),
                   const SizedBox(height: 10),
                   SizedBox(
                     width: 300,
