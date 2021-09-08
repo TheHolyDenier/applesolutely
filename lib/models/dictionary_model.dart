@@ -14,4 +14,20 @@ class Dictionary extends HiveObject {
   bool isFavorite;
 
   Dictionary(this.name, {this.image, this.summary, this.isFavorite = false});
+
+  Dictionary updateDictionary(Dictionary newDictionary) {
+    if (name != newDictionary.name) {
+      name = newDictionary.name;
+    }
+    if (image != newDictionary.image) {
+      image = newDictionary.image;
+    }
+    if (summary != newDictionary.summary) {
+      summary = newDictionary.summary;
+    }
+    if (isFavorite != newDictionary.isFavorite) {
+      isFavorite = newDictionary.isFavorite;
+    }
+    return this;
+  }
 }

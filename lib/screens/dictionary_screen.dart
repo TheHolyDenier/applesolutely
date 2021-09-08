@@ -3,6 +3,8 @@ import 'package:applesolutely/services/colors_service.dart';
 import 'package:applesolutely/widgets/header_widget.dart';
 import 'package:flutter/material.dart';
 
+import 'dictionary_form_widget.dart';
+
 class DictionaryScreen extends StatefulWidget {
   static const route = '/dictionary';
   const DictionaryScreen({Key? key}) : super(key: key);
@@ -12,9 +14,11 @@ class DictionaryScreen extends StatefulWidget {
 }
 
 class _DictionaryScreenState extends State<DictionaryScreen> {
+  late Dictionary dictionary;
+
   @override
   Widget build(BuildContext context) {
-    final dictionary = ModalRoute.of(context)!.settings.arguments as Dictionary;
+    dictionary = ModalRoute.of(context)!.settings.arguments as Dictionary;
 
     return SafeArea(
       child: Scaffold(
@@ -28,13 +32,16 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
               backgroundColor: UtilsService.dictionaryColors[dictionary.key],
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(dictionary.name),
-                background:
-                    Hero(tag: dictionary.key, child: const HeaderWidget()),
+                background: Hero(
+                    tag: dictionary.key,
+                    child: HeaderWidget(
+                        image: dictionary.image,
+                        color: UtilsService.dictionaryColors[dictionary.key])),
               ),
               actions: [
                 IconButton(
                   icon: const Icon(Icons.edit_outlined),
-                  onPressed: () {},
+                  onPressed: _openEdit,
                 ),
               ],
             ),
@@ -42,5 +49,23 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
         ),
       ),
     );
+  }
+
+  void _editDictionary(Dictionary newDictionary) {
+    dictionary.updateDictionary(newDictionary);
+    dictionary.save();
+    setState(() {});
+    Navigator.pop(context);
+  }
+
+  void _openEdit() {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+          builder: (BuildContext context) =>
+              DictionaryFormScreen(_editDictionary, dictionary: dictionary),
+          fullscreenDialog: true),
+    ).then((_) => setState(() {}));
+    ;
   }
 }

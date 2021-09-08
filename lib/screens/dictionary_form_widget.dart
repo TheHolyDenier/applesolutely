@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:applesolutely/models/dictionary_model.dart';
 import 'package:applesolutely/services/box_service.dart';
@@ -14,7 +13,9 @@ typedef DictionaryCallback = void Function(Dictionary d);
 class DictionaryFormScreen extends StatefulWidget {
   static const route = '/new_dictionary';
   final DictionaryCallback callback;
-  const DictionaryFormScreen(this.callback, {Key? key}) : super(key: key);
+  final Dictionary? dictionary;
+  const DictionaryFormScreen(this.callback, {Key? key, this.dictionary})
+      : super(key: key);
 
   @override
   _DictionaryFormScreenState createState() => _DictionaryFormScreenState();
@@ -25,28 +26,32 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
   final _dictionaryNameController = TextEditingController();
   final _dictionarySummaryController = TextEditingController();
   bool _isFavorite = false;
-  Uint8List? _bytes;
   String _base64Image = '';
 
   @override
   Widget build(BuildContext context) {
+    if (widget.dictionary != null) {
+      _extractDictionaryValues(widget.dictionary!);
+    }
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: const Text('New Dictionary'), actions: [
-          IconButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                final Dictionary d = Dictionary(
-                    _dictionaryNameController.text.trim(),
-                    summary: _dictionarySummaryController.text.trim(),
-                    isFavorite: _isFavorite,
-                    image: _base64Image);
-                widget.callback(d);
-              }
-            },
-            icon: const Icon(Icons.save_outlined),
-          ),
-        ]),
+        appBar: AppBar(
+            title: Text(widget.dictionary != null
+                ? 'Edit Dictionary'
+                : 'New Dictionary'),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    final Dictionary d = widget.dictionary != null
+                        ? _updateDictionary()
+                        : _newDictionary();
+                    widget.callback(d);
+                  }
+                },
+                icon: const Icon(Icons.save_outlined),
+              ),
+            ]),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(8.0),
@@ -98,7 +103,9 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
                         return 'Dictionaries\' names must be at least 2 characters';
                       }
                       if (BoxService.dictionaries.values
-                          .any((element) => element.name == value.trim())) {
+                              .any((element) => element.name == value.trim()) &&
+                          (widget.dictionary != null &&
+                              widget.dictionary!.name != value.trim())) {
                         return 'A dictionary with the same name already exists';
                       }
                       return null;
@@ -170,10 +177,28 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
 
   void _processImage(List<Media>? res) {
     if (res != null) {
-      final File f = File(res[0].path);
-      _base64Image = ConverterService.imageToBase64String(f);
-      _bytes = ConverterService.imageToBase64Int(f);
+      _base64Image = ConverterService.imageToBase64String(File(res[0].path));
       setState(() {});
+    }
+  }
+
+  Dictionary _newDictionary() =>
+      Dictionary(_dictionaryNameController.text.trim(),
+          summary: _dictionarySummaryController.text.trim(),
+          isFavorite: _isFavorite,
+          image: _base64Image);
+
+  Dictionary _updateDictionary() =>
+      widget.dictionary!.updateDictionary(_newDictionary());
+
+  void _extractDictionaryValues(Dictionary d) {
+    _dictionaryNameController.text = d.name;
+    if (d.summary != null && d.summary!.isNotEmpty) {
+      _dictionarySummaryController.text = d.summary!;
+    }
+    _isFavorite = d.isFavorite;
+    if (d.image != null && d.image!.isNotEmpty) {
+      _base64Image = d.image!;
     }
   }
 }

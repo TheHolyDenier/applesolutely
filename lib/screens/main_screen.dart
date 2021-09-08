@@ -71,8 +71,9 @@ class _MainScreenState extends State<MainScreen> {
                               _addRemoveDictionaryFromRemoveList(index);
                             } else {
                               Navigator.pushNamed(
-                                  context, DictionaryScreen.route,
-                                  arguments: d);
+                                      context, DictionaryScreen.route,
+                                      arguments: d)
+                                  .then((_) => setState(() {}));
                             }
                           },
                           child:
@@ -122,6 +123,7 @@ class _MainScreenState extends State<MainScreen> {
         builder: (BuildContext context) => DictionaryFormScreen(_addDictionary),
         fullscreenDialog: true,
       ),
-    );
+    ).then((_) => setState(() {}));
+    ;
   }
 }

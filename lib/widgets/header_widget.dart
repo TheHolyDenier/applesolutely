@@ -8,9 +8,9 @@ class HeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return image != null && image!.isNotEmpty
-        ? Image.memory(ConverterService.base64ToImage(image!),
-            fit: BoxFit.cover)
-        : Container();
+    final bytes = image != null && image!.isNotEmpty
+        ? ConverterService.base64ToImage(image!)
+        : null;
+    return bytes != null ? Image.memory(bytes, fit: BoxFit.cover) : Container();
   }
 }
