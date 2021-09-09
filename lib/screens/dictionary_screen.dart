@@ -3,6 +3,7 @@ import 'package:applesolutely/models/item_model.dart';
 import 'package:applesolutely/services/box_service.dart';
 import 'package:applesolutely/services/colors_service.dart';
 import 'package:applesolutely/widgets/header_widget.dart';
+import 'package:applesolutely/widgets/remove_action_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
@@ -68,14 +69,19 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                         color: UtilsService.dictionaryColors[dictionary.key])),
               ),
               actions: [
-                IconButton(
-                  icon: const Icon(Icons.edit_outlined),
-                  onPressed: _openEdit,
-                ),
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: _openNewItem,
-                ),
+                if (toRemove.isNotEmpty)
+                  RemoveActionWidget(toRemove.length, _removeItems),
+                if (toRemove.isEmpty)
+                  Wrap(children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit_outlined),
+                      onPressed: _openEdit,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: _openNewItem,
+                    ),
+                  ]),
               ],
             ),
           ],
@@ -113,5 +119,9 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
           builder: (BuildContext context) => ItemFormScreen(_newItem),
           fullscreenDialog: true),
     );
+  }
+
+  void _removeItems() {
+    //  TODO: remove items from database
   }
 }
