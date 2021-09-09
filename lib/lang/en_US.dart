@@ -14,4 +14,11 @@ const Map<String, String> enUS = {
   'dictionary_favorite': 'Mark as favorite',
   'edit_item': 'Edit Item',
   'new_item': 'New Item',
+  'item_calling_name': 'Calling Name',
+  'item_calling_name_hint': 'Ej. James, Sunflower Str.',
+  'item_favorite': 'Mark as favorite',
+  'item_family_name': 'Surname',
+  'item_family_name_hint': 'Ej. Smith, Madrid',
+  'item_summary': 'Summary',
+  'item_pictures': 'Pictures',
 };
