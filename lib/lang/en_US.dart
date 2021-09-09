@@ -12,4 +12,6 @@ const Map<String, String> enUS = {
   'dictionary_name': 'Name',
   'dictionary_summary': 'Summary',
   'dictionary_favorite': 'Mark as favorite',
+  'edit_item': 'Edit Item',
+  'new_item': 'New Item',
 };

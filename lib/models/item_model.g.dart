@@ -17,31 +17,36 @@ class ItemAdapter extends TypeAdapter<Item> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Item(
-      fields[10] as String,
-      prosoponym: fields[11] as String?,
-      alsoKnownAs: (fields[12] as List?)?.cast<String>(),
-      summary: fields[13] as String?,
-      collections: (fields[14] as List?)?.cast<Collection>(),
-      images: (fields[15] as List?)?.cast<String>(),
-    );
+      callingName: fields[10] as String?,
+      isFavorite: fields[11] as bool,
+      familyName: fields[12] as String?,
+      alsoKnownAs: (fields[13] as List?)?.cast<String>(),
+      images: (fields[16] as List?)?.cast<String>(),
+      summary: fields[14] as String?,
+      relatedItems: (fields[17] as List?)?.cast<int>(),
+    )..collections = (fields[15] as List?)?.cast<Collection>();
   }
 
   @override
   void write(BinaryWriter writer, Item obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(10)
       ..write(obj.callingName)
       ..writeByte(11)
-      ..write(obj.prosoponym)
+      ..write(obj.isFavorite)
       ..writeByte(12)
-      ..write(obj.alsoKnownAs)
+      ..write(obj.familyName)
       ..writeByte(13)
-      ..write(obj.summary)
+      ..write(obj.alsoKnownAs)
       ..writeByte(14)
-      ..write(obj.collections)
+      ..write(obj.summary)
       ..writeByte(15)
-      ..write(obj.images);
+      ..write(obj.collections)
+      ..writeByte(16)
+      ..write(obj.images)
+      ..writeByte(17)
+      ..write(obj.relatedItems);
   }
 
   @override

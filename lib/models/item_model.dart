@@ -7,17 +7,28 @@ part 'item_model.g.dart';
 @HiveType(typeId: 1)
 class Item extends HiveObject {
   @HiveField(10)
-  String callingName;
+  String? callingName;
   @HiveField(11)
-  String? prosoponym;
+  bool isFavorite;
   @HiveField(12)
-  List<String>? alsoKnownAs;
+  String? familyName;
   @HiveField(13)
-  String? summary;
+  List<String>? alsoKnownAs;
   @HiveField(14)
-  List<Collection>? collections;
+  String? summary;
   @HiveField(15)
+  List<Collection>? collections;
+  @HiveField(16)
   List<String>? images;
+  @HiveField(17)
+  List<int>? relatedItems;
 
-  Item(this.callingName, { this.prosoponym, this.alsoKnownAs, this.summary, this.collections, this.images});
+  Item(
+      {this.callingName,
+      this.isFavorite = false,
+      this.familyName,
+      this.alsoKnownAs,
+      this.images,
+      this.summary,
+      this.relatedItems});
 }

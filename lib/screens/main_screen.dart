@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
-import 'dictionary_form_widget.dart';
+import 'dictionary_form_screen.dart';
 import 'dictionary_screen.dart';
 
 class MainScreen extends StatefulWidget {

@@ -1,9 +1,11 @@
 import 'package:applesolutely/models/dictionary_model.dart';
+import 'package:applesolutely/models/item_model.dart';
 import 'package:applesolutely/services/colors_service.dart';
 import 'package:applesolutely/widgets/header_widget.dart';
 import 'package:flutter/material.dart';
 
-import 'dictionary_form_widget.dart';
+import 'dictionary_form_screen.dart';
+import 'item_form_screen.dart';
 
 class DictionaryScreen extends StatefulWidget {
   static const route = '/dictionary';
@@ -48,6 +50,10 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                   icon: const Icon(Icons.edit_outlined),
                   onPressed: _openEdit,
                 ),
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: _openNewItem,
+                ),
               ],
             ),
           ],
@@ -69,6 +75,22 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
       MaterialPageRoute<void>(
           builder: (BuildContext context) =>
               DictionaryFormScreen(_editDictionary, dictionary: dictionary),
+          fullscreenDialog: true),
+    );
+  }
+
+  void _newItem(Item item) {
+    // dictionary.updateDictionary(newDictionary);
+    // dictionary.save();
+    // setState(() {});
+    Navigator.pop(context);
+  }
+
+  void _openNewItem() {
+    Navigator.push(
+      context,
+      MaterialPageRoute<void>(
+          builder: (BuildContext context) => ItemFormScreen(_newItem),
           fullscreenDialog: true),
     );
   }

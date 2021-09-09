@@ -11,4 +11,6 @@ const Map<String, String> esES = {
   'dictionary_name': 'Nombre',
   'dictionary_summary': 'Resumen',
   'dictionary_favorite': 'Hacer favorito',
+  'edit_item': 'Editar elemento',
+  'new_item': 'Nuevo elemento',
 };
