@@ -1,6 +1,7 @@
 import 'package:applesolutely/models/dictionary_model.dart';
 import 'package:applesolutely/services/box_service.dart';
 import 'package:applesolutely/widgets/dictionary_tile_widget.dart';
+import 'package:applesolutely/widgets/remove_action_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
@@ -41,19 +42,8 @@ class _MainScreenState extends State<MainScreen> {
               ),
               actions: [
                 if (toRemove.isNotEmpty)
-                  Center(
-                    child: Text(
-                      '${toRemove.length}',
-                      style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                if (toRemove.isNotEmpty)
-                  IconButton(
-                    onPressed: _removeDictionaries,
-                    icon: const Icon(Icons.delete_forever_outlined),
-                  ),
-                if (!toRemove.isNotEmpty)
+                  RemoveActionWidget(toRemove.length, _removeDictionaries),
+                if (toRemove.isEmpty)
                   IconButton(
                       onPressed: _newDictionary,
                       icon: const Icon(Icons.add_outlined)),

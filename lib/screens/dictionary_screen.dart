@@ -19,6 +19,8 @@ class DictionaryScreen extends StatefulWidget {
 
 class _DictionaryScreenState extends State<DictionaryScreen> {
   late Dictionary dictionary;
+  late List<Item> items;
+  List<dynamic> toRemove = List.empty(growable: true);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,6 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
     );
   }
 
-  late List<Item> items;
   SafeArea _getWidget(BuildContext context) {
     BoxService.openDictionary(dictionary.name);
     items = BoxService.activeDictionary.values.toList();
@@ -101,9 +102,7 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
   }
 
   void _newItem(Item item) {
-    // dictionary.updateDictionary(newDictionary);
-    // dictionary.save();
-    // setState(() {});
+    BoxService.addItem(item);
     Navigator.pop(context);
   }
 

@@ -15,12 +15,12 @@ class BoxService {
     }
   }
 
-  static addDictionary(Dictionary d) {
+  static void addDictionary(Dictionary d) {
     BoxService.dictionaries.add(d);
     UtilsService.addDictionaryColor(d.key);
   }
 
-  static removeDictionaries(List<dynamic> toRemove) {
+  static void removeDictionaries(List<dynamic> toRemove) {
     BoxService.dictionaries.deleteAll(toRemove);
     toRemove.clear();
   }
@@ -29,5 +29,9 @@ class BoxService {
 
   static void openDictionary(String dictionary) {
     BoxService.activeDictionary = Hive.box<Item>(dictionary);
+  }
+
+  static void addItem(Item item) {
+    BoxService.activeDictionary.add(item);
   }
 }

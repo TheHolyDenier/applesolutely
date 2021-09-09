@@ -68,12 +68,17 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                   children: [
                     if (_tags.isNotEmpty)
                       Wrap(
+                        spacing: 3.0,
                         children: [
-                          for (var tag
-                              in _tagsController.text.trim().split(','))
+                          for (var tag in _tags)
                             InputChip(
-                              label: Text(tag.toUpperCase()),
-                            ),
+                                deleteIcon:
+                                    const Icon(Icons.remove_circle_outline),
+                                label: Text(tag.toUpperCase()),
+                                onDeleted: () {
+                                  _tags.remove(tag);
+                                  setState(() {});
+                                }),
                         ],
                       ),
                     Row(children: [
