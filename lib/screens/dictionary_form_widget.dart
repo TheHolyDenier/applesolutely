@@ -81,18 +81,18 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
                         TextButton(
                           onPressed: _pickPicture,
                           child: Row(
-                            children: const [
-                              Icon(Icons.add_photo_alternate_outlined),
-                              Text('Pick picture')
+                            children: [
+                              const Icon(Icons.add_photo_alternate_outlined),
+                              Text('pick_picture'.tr)
                             ],
                           ),
                         ),
                         TextButton(
                           onPressed: _takePicture,
                           child: Row(
-                            children: const [
-                              Icon(Icons.add_a_photo_outlined),
-                              Text('Take picture')
+                            children: [
+                              const Icon(Icons.add_a_photo_outlined),
+                              Text('take_picture'.tr)
                             ],
                           ),
                         ),
@@ -108,29 +108,28 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
                   TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'error_input_no_text'.tr;
                       }
                       if (value.length < 2) {
-                        return 'Dictionaries\' names must be at least 2 characters';
+                        return 'error_input_length'.tr;
                       }
                       if (BoxService.dictionaries.values
                               .any((element) => element.name == value.trim()) &&
                           (widget.dictionary != null &&
                               widget.dictionary!.name != value.trim())) {
-                        return 'A dictionary with the same name already exists';
+                        return 'error_input_dictionary_name'.tr;
                       }
                       return null;
                     },
                     controller: _dictionaryNameController,
-                    decoration: const InputDecoration(
-                        hintText: 'It', labelText: 'Name'),
+                    decoration:
+                        InputDecoration(labelText: 'dictionary_name'.tr),
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
                     controller: _dictionarySummaryController,
-                    decoration: const InputDecoration(
-                      hintText: 'Written by SKing',
-                      labelText: 'Summary',
+                    decoration: InputDecoration(
+                      labelText: 'dictionary_summary'.tr,
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -138,7 +137,7 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Mark as favorite',
+                        'dictionary_favorite'.tr,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),
                       Switch(
