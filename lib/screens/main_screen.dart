@@ -23,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     BoxService.openDictionaryList();
-    _dictionaries = BoxService.getDictionaries().values.toList();
+    _dictionaries = BoxService.dictionaries.values.toList();
     _sortDictionaries();
 
     return SafeArea(

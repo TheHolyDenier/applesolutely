@@ -22,7 +22,8 @@ class Item extends HiveObject {
   List<String>? images;
   @HiveField(17)
   List<int>? relatedItems;
-
+  @HiveField(18)
+  List<String>? tags;
   Item(
       {this.callingName,
       this.isFavorite = false,
@@ -30,5 +31,33 @@ class Item extends HiveObject {
       this.alsoKnownAs,
       this.images,
       this.summary,
-      this.relatedItems});
+      this.relatedItems,
+      this.tags});
+
+  void update(Item newItem) {
+    if (callingName != newItem.callingName) {
+      callingName = newItem.callingName;
+    }
+    if (isFavorite != newItem.isFavorite) {
+      isFavorite = newItem.isFavorite;
+    }
+    if (familyName != newItem.familyName) {
+      familyName = newItem.familyName;
+    }
+    if (alsoKnownAs != newItem.alsoKnownAs) {
+      alsoKnownAs = newItem.alsoKnownAs;
+    }
+    if (images != newItem.images) {
+      images = newItem.images;
+    }
+    if (summary != newItem.summary) {
+      summary = newItem.summary;
+    }
+    if (relatedItems != newItem.relatedItems) {
+      relatedItems = newItem.relatedItems;
+    }
+    if (tags != newItem.tags) {
+      tags = newItem.tags;
+    }
+  }
 }

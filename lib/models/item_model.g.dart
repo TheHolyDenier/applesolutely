@@ -24,13 +24,14 @@ class ItemAdapter extends TypeAdapter<Item> {
       images: (fields[16] as List?)?.cast<String>(),
       summary: fields[14] as String?,
       relatedItems: (fields[17] as List?)?.cast<int>(),
+      tags: (fields[18] as List?)?.cast<String>(),
     )..collections = (fields[15] as List?)?.cast<Collection>();
   }
 
   @override
   void write(BinaryWriter writer, Item obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(10)
       ..write(obj.callingName)
       ..writeByte(11)
@@ -46,7 +47,9 @@ class ItemAdapter extends TypeAdapter<Item> {
       ..writeByte(16)
       ..write(obj.images)
       ..writeByte(17)
-      ..write(obj.relatedItems);
+      ..write(obj.relatedItems)
+      ..writeByte(18)
+      ..write(obj.tags);
   }
 
   @override

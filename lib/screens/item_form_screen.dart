@@ -17,16 +17,24 @@ class ItemFormScreen extends StatefulWidget {
 
 class _ItemFormScreenState extends State<ItemFormScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _formKeyTags = GlobalKey<FormState>();
+  final List<String> _tags = List.empty(growable: true);
+  final _tagsController = TextEditingController();
   final _callingNameController = TextEditingController();
   final _familyNameController = TextEditingController();
   final List<TextEditingController> _alsoKnownControllers =
       List.empty(growable: true);
   final _summaryController = TextEditingController();
   bool _isFavorite = false;
-  String _base64Image = '';
-  String _base64ImageFirst = '';
-  String _base64ImageSecond = '';
-  String _base64ImageThird = '';
+  final List<String> _base64Images = ['', '', '', ''];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.item != null) {
+      _extractItemValues(widget.item!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,79 +45,157 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
             actions: [
               IconButton(
                 onPressed: () {
-                  //TODO: SAVE
-                  // if (_formKey.currentState!.validate()) {
-                  //   final Dictionary d = widget.dictionary != null
-                  //       ? _updateDictionary()
-                  //       : _newDictionary();
-                  //   widget.callback(d);
-                  // }
+                  if (_formKey.currentState!.validate()) {
+                    final Item i =
+                        widget.item != null ? _updateItem() : _newItem();
+                    widget.callback(i);
+                  }
                 },
                 icon: const Icon(Icons.save_outlined),
               ),
             ]),
         body: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(children: [
-              PickImageWidget((String? str) {
-                _updateImage(str, _base64Image);
-              }),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+          child: Column(children: [
+            PickImageWidget((String? str) {
+              _base64Images[0] = str ?? '';
+              setState(() {});
+            }),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Form(
+                key: _formKeyTags,
                 child: Column(
                   children: [
-                    TextFormField(
-                      validator: (value) {
-                        // if (value == null || value.isEmpty) {
-                        //   return 'error_input_no_text'.tr;
-                        // }
-                        // if (value.length < 2) {
-                        //   return 'error_input_length'.tr;
-                        // }
-                        // if (BoxService.dictionaries.values.any(
-                        //         (element) => element.name == value.trim()) &&
-                        //     (widget.dictionary != null &&
-                        //         widget.dictionary!.name != value.trim())) {
-                        //   return 'error_input_dictionary_name'.tr;
-                        // }
-                        return null;
-                      },
-                      controller: _callingNameController,
-                      decoration: InputDecoration(
-                          labelText: 'item_calling_name'.tr,
-                          hintText: 'item_calling_name_hint'.tr),
-                    ),
-                    const SizedBox(height: 10),
-                    TextFormField(
-                      controller: _familyNameController,
-                      decoration: InputDecoration(
-                          labelText: 'item_family_name'.tr,
-                          hintText: 'item_family_name_hint'.tr),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'item_favorite'.tr,
-                          style: Theme.of(context).textTheme.bodyText1,
-                        ),
-                        Switch(
-                          value: _isFavorite,
-                          onChanged: (bool value) {
-                            _isFavorite = value;
-                            setState(() {});
+                    if (_tags.isNotEmpty)
+                      Wrap(
+                        children: [
+                          for (var tag
+                              in _tagsController.text.trim().split(','))
+                            InputChip(
+                              label: Text(tag.toUpperCase()),
+                            ),
+                        ],
+                      ),
+                    Row(children: [
+                      Expanded(
+                        child: TextFormField(
+                          validator: (value) {
+                            if (_tags.contains(value)) {
+                              return 'item_tag_error'.tr;
+                            }
+                            return null;
                           },
+                          controller: _tagsController,
+                          decoration: InputDecoration(
+                              labelText: 'item_tags'.tr,
+                              hintText: 'item_tags_hint'.tr),
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(width: 10),
+                      IconButton(
+                        icon: const Icon(Icons.add),
+                        onPressed: () {
+                          if (_formKeyTags.currentState!.validate()) {
+                            _tags.add(_tagsController.text.trim());
+                            _tagsController.clear();
+                            setState(() {});
+                          }
+                        },
+                      )
+                    ]),
                     const SizedBox(height: 10),
-                    TextFormField(
-                      controller: _summaryController,
-                      decoration:
-                          InputDecoration(labelText: 'item_family_summary'.tr),
-                    ),
+                    Form(
+                        key: _formKey,
+                        child: Column(children: [
+                          TextFormField(
+                            validator: (value) {
+                              // if (value == null || value.isEmpty) {
+                              //   return 'error_input_no_text'.tr;
+                              // }
+                              // if (value.length < 2) {
+                              //   return 'error_input_length'.tr;
+                              // }
+                              // if (BoxService.dictionaries.values.any(
+                              //         (element) => element.name == value.trim()) &&
+                              //     (widget.dictionary != null &&
+                              //         widget.dictionary!.name != value.trim())) {
+                              //   return 'error_input_dictionary_name'.tr;
+                              // }
+                              return null;
+                            },
+                            controller: _callingNameController,
+                            decoration: InputDecoration(
+                                labelText: 'item_calling_name'.tr,
+                                hintText: 'item_calling_name_hint'.tr),
+                          ),
+                          const SizedBox(height: 10),
+                          TextFormField(
+                            controller: _familyNameController,
+                            decoration: InputDecoration(
+                                labelText: 'item_family_name'.tr,
+                                hintText: 'item_family_name_hint'.tr),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('item_also_known_as'.tr,
+                                    style:
+                                        Theme.of(context).textTheme.bodyText1),
+                                IconButton(
+                                  onPressed: () {
+                                    _alsoKnownControllers
+                                        .add(TextEditingController());
+                                    setState(() {});
+                                  },
+                                  icon: const Icon(Icons.add),
+                                )
+                              ],
+                            ),
+                          ),
+                          for (var controller in _alsoKnownControllers)
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: controller,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.delete_outline,
+                                      color:
+                                          Theme.of(context).colorScheme.error),
+                                  onPressed: () {
+                                    _alsoKnownControllers.remove(controller);
+                                    setState(() {});
+                                  },
+                                )
+                              ],
+                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'item_favorite'.tr,
+                                style: Theme.of(context).textTheme.bodyText1,
+                              ),
+                              Switch(
+                                value: _isFavorite,
+                                onChanged: (bool value) {
+                                  _isFavorite = value;
+                                  setState(() {});
+                                },
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          TextFormField(
+                            controller: _summaryController,
+                            decoration:
+                                InputDecoration(labelText: 'item_summary'.tr),
+                          ),
+                        ])),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 15.0),
                       child: Text('item_pictures'.tr,
@@ -118,38 +204,60 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Expanded(
-                          child: PickImageWidget(
-                            (String? str) => _base64ImageFirst = str ?? '',
-                            inline: true,
+                        for (var i = 1; i < _base64Images.length; i++)
+                          Expanded(
+                            child: PickImageWidget(
+                              (String? str) => _base64Images[i] = str ?? '',
+                              inline: true,
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: PickImageWidget(
-                            (String? str) => _base64ImageSecond = str ?? '',
-                            inline: true,
-                          ),
-                        ),
-                        Expanded(
-                          child: PickImageWidget(
-                            (String? str) => _base64ImageThird = str ?? '',
-                            inline: true,
-                          ),
-                        ),
                       ],
                     )
                   ],
                 ),
               ),
-            ]),
-          ),
+            ),
+          ]),
         ),
       ),
     );
   }
 
-  void _updateImage(String? str, String variable) {
-    variable = str ?? '';
-    setState(() {});
+  Item _updateItem() {
+    final Item i = _newItem();
+    widget.item!.update(i);
+    return widget.item!;
+  }
+
+  Item _newItem() => Item(
+      callingName: _callingNameController.text.trim(),
+      familyName: _familyNameController.text.trim(),
+      images: [
+        for (var image in _base64Images)
+          if (image.isNotEmpty) image
+      ],
+      alsoKnownAs: [
+        for (var controller in _alsoKnownControllers) controller.text.trim()
+      ],
+      isFavorite: _isFavorite,
+      summary: _summaryController.text.trim());
+
+  void _extractItemValues(Item item) {
+    _callingNameController.text = item.callingName ?? '';
+    _familyNameController.text = item.familyName ?? '';
+    _isFavorite = item.isFavorite;
+    if (item.images != null && item.images!.isNotEmpty) {
+      for (var i = 0; i < _base64Images.length; i++) {
+        if (item.images![i].isNotEmpty) {
+          _base64Images[i] = item.images![i];
+        }
+      }
+    }
+    if (item.alsoKnownAs != null && item.alsoKnownAs!.isNotEmpty) {
+      for (var knownAs in item.alsoKnownAs!) {
+        _alsoKnownControllers.add(TextEditingController(text: knownAs));
+      }
+    }
+    _summaryController.text = item.summary ?? '';
   }
 }

@@ -1,3 +1,4 @@
+import 'package:applesolutely/models/item_model.dart';
 import 'package:hive/hive.dart';
 
 import './colors_service.dart';
@@ -5,9 +6,7 @@ import '../models/dictionary_model.dart';
 
 class BoxService {
   static late Box<Dictionary> dictionaries;
-  static Box<Dictionary> getDictionaries() => BoxService.dictionaries;
-  static Dictionary? getDictionary(int index) =>
-      BoxService.dictionaries.getAt(index);
+  static late Box<Item> activeDictionary;
 
   static void openDictionaryList() {
     BoxService.dictionaries = Hive.box<Dictionary>('dictionaries');
@@ -27,4 +26,8 @@ class BoxService {
   }
 
   static int countDictionaries() => BoxService.dictionaries.length;
+
+  static void openDictionary(String dictionary) {
+    BoxService.activeDictionary = Hive.box<Item>(dictionary);
+  }
 }

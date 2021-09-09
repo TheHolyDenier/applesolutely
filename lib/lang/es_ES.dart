@@ -19,5 +19,9 @@ const Map<String, String> esES = {
   'item_family_name': 'Apellido',
   'item_family_name_hint': 'Ej. García, Madrid',
   'item_summary': 'Resumen',
-  'item_pictures': 'Imágenes'
+  'item_pictures': 'Más imágenes',
+  'item_also_known_as': 'También conocido como',
+  'item_tags': 'Etiquetas',
+  'item_tags_hint': 'Ej. Personaje, Sol Oscuro',
+  'item_tag_error': 'Esa etiqueta ya existe',
 };
