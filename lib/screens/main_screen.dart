@@ -3,6 +3,7 @@ import 'package:applesolutely/services/box_service.dart';
 import 'package:applesolutely/widgets/dictionary_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 import 'dictionary_form_widget.dart';
 import 'dictionary_screen.dart';
@@ -34,9 +35,9 @@ class _MainScreenState extends State<MainScreen> {
               snap: true,
               floating: true,
               expandedHeight: 160.0,
-              flexibleSpace: const FlexibleSpaceBar(
-                title: Text('Applesolutely'),
-                background: FlutterLogo(),
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text('title'.tr),
+                background: Image.asset('assets/apples.png'),
               ),
               actions: [
                 if (toRemove.isNotEmpty)

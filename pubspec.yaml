@@ -15,6 +15,7 @@ dependencies:
   hive: ^2.0.4
   hive_flutter: ^1.1.0
   images_picker: ^1.2.4
+  flutter_launcher_icons:
 
 dev_dependencies:
   flutter_test:
@@ -25,6 +26,12 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/
+
+flutter_icons:
+  image_path: "assets/apple.png"
+  android: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:

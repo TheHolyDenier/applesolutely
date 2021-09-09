@@ -73,36 +73,38 @@ class _DictionaryFormScreenState extends State<DictionaryFormScreen> {
                     child: HeaderWidget(image: _base64Image),
                   ),
                   const SizedBox(height: 10),
-                  SizedBox(
-                    width: 300,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextButton(
+                        onPressed: _pickPicture,
+                        child: Row(
+                          children: [
+                            const Icon(Icons.add_photo_alternate_outlined),
+                            Text('pick_picture'.tr)
+                          ],
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: _takePicture,
+                        child: Row(
+                          children: [
+                            const Icon(Icons.add_a_photo_outlined),
+                            Text('take_picture'.tr)
+                          ],
+                        ),
+                      ),
+                      if (_base64Image.isNotEmpty)
                         TextButton(
-                          onPressed: _pickPicture,
+                          onPressed: _deletePicture,
                           child: Row(
                             children: [
-                              const Icon(Icons.add_photo_alternate_outlined),
-                              Text('pick_picture'.tr)
+                              const Icon(Icons.delete_outlined),
+                              Text('delete_picture'.tr)
                             ],
                           ),
                         ),
-                        TextButton(
-                          onPressed: _takePicture,
-                          child: Row(
-                            children: [
-                              const Icon(Icons.add_a_photo_outlined),
-                              Text('take_picture'.tr)
-                            ],
-                          ),
-                        ),
-                        if (_base64Image.isNotEmpty)
-                          IconButton(
-                            onPressed: _deletePicture,
-                            icon: const Icon(Icons.delete),
-                          ),
-                      ],
-                    ),
+                    ],
                   ),
                   const SizedBox(height: 10),
                   TextFormField(
