@@ -1,7 +1,9 @@
 import 'package:applesolutely/models/dictionary_model.dart';
+import 'package:applesolutely/models/tile_info_model.dart';
 import 'package:applesolutely/services/box_service.dart';
-import 'package:applesolutely/widgets/dictionary_tile_widget.dart';
+import 'package:applesolutely/services/colors_service.dart';
 import 'package:applesolutely/widgets/remove_action_widget.dart';
+import 'package:applesolutely/widgets/tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
@@ -61,6 +63,7 @@ class _MainScreenState extends State<MainScreen> {
                             if (toRemove.isNotEmpty) {
                               _addRemoveDictionaryFromRemoveList(index);
                             } else {
+                              BoxService.openDictionary(d.name);
                               Navigator.pushNamed(
                                       context, DictionaryScreen.route,
                                       arguments: d)
@@ -69,8 +72,14 @@ class _MainScreenState extends State<MainScreen> {
                                       }));
                             }
                           },
-                          child:
-                              DictionaryTileWidget(d, toRemove.contains(d.key)),
+                          child: TileWidget(TileInfoModel.fromDictionary(d),
+                              toRemove.contains(d.key),
+                              color: UtilsService.dictionaryColors[d.key] ??
+                                  UtilsService.genRandomColor(), callback: () {
+                            d.isFavorite = !d.isFavorite;
+                            d.save();
+                            setState(() {});
+                          }),
                         )
                       : Container();
                 },

@@ -24,4 +24,6 @@ const Map<String, String> esES = {
   'item_tags': 'Etiquetas',
   'item_tags_hint': 'Ej. Personaje, Sol Oscuro',
   'item_tag_error': 'Esa etiqueta ya existe',
+  'open_quote': '«',
+  'close_quote': '»',
 };

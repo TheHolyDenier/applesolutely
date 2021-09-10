@@ -24,5 +24,7 @@ const Map<String, String> enUS = {
   'item_also_known_as': 'Also known as...',
   'item_tags': 'Tags',
   'item_tags_hint': 'Ex. Character, DarkSun',
-  'item_tag_error': 'Tag is already added'
+  'item_tag_error': 'Tag is already added',
+  'open_quote': '"',
+  'close_quote': '"',
 };

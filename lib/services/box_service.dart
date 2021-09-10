@@ -28,10 +28,15 @@ class BoxService {
   static int countDictionaries() => BoxService.dictionaries.length;
 
   static void openDictionary(String dictionary) {
+    if (!Hive.isBoxOpen(dictionary)) {
+      Hive.openBox<Item>(dictionary);
+    }
     BoxService.activeDictionary = Hive.box<Item>(dictionary);
   }
 
   static void addItem(Item item) {
     BoxService.activeDictionary.add(item);
   }
+
+  static countItems() => BoxService.activeDictionary.length;
 }
