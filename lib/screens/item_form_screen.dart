@@ -245,7 +245,8 @@ class _ItemFormScreenState extends State<ItemFormScreen> {
         for (var controller in _alsoKnownControllers) controller.text.trim()
       ],
       isFavorite: _isFavorite,
-      summary: _summaryController.text.trim());
+      summary: _summaryController.text.trim(),
+      tags: _tags);
 
   void _extractItemValues(Item item) {
     _callingNameController.text = item.callingName ?? '';

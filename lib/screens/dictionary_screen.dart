@@ -30,8 +30,6 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
   void initState() {
     super.initState();
     _items = BoxService.activeDictionary.values.toList();
-    _sortItems();
-    _getTags();
   }
 
   @override
@@ -39,6 +37,8 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
     _dictionary = ModalRoute.of(context)!.settings.arguments as Dictionary;
     _color = UtilsService.dictionaryColors[_dictionary.key] ??
         UtilsService.genRandomColor();
+    _sortItems();
+    _getTags();
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
@@ -153,12 +153,14 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
       print(item.tags);
       if (item.tags != null) {
         for (var tag in item.tags!) {
-          if (_tags.contains(tag)) {
+          if (!_tags.contains(tag)) {
             _tags.add(tag);
           }
         }
       }
     }
     _tags.sort((a, b) => a.compareTo(b));
+    print(_tags);
+    setState(() {});
   }
 }
