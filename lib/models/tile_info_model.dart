@@ -14,7 +14,7 @@ class TileInfoModel {
   static TileInfoModel fromDictionary(Dictionary d) => TileInfoModel(d.name,
       image: d.image ?? '', summary: d.summary, isFavorite: d.isFavorite);
   static TileInfoModel fromItem(Item i) {
-    String fullName = i.familyName ?? '';
+    String fullName = '${i.familyName},';
     if (i.alsoKnownAs != null && i.alsoKnownAs!.isNotEmpty) {
       fullName += ' ${'open_quote'.tr}${i.alsoKnownAs![0]}${'close_quote'.tr}';
     }

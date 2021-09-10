@@ -21,7 +21,8 @@ class DictionaryScreen extends StatefulWidget {
 
 class _DictionaryScreenState extends State<DictionaryScreen> {
   late Dictionary _dictionary;
-  late List<Item> _items = List.empty(growable: true);
+  List<Item> _items = List.empty(growable: true);
+  List<String> _tags = List.empty(growable: true);
   late Color _color;
   List<dynamic> _toRemove = List.empty(growable: true);
 
@@ -29,6 +30,8 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
   void initState() {
     super.initState();
     _items = BoxService.activeDictionary.values.toList();
+    _sortItems();
+    _getTags();
   }
 
   @override
@@ -74,6 +77,9 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
                   ]),
               ],
             ),
+            SliverToBoxAdapter(
+              child: Wrap(children: [for (var tag in _tags) Text(tag)]),
+            ),
             SliverList(
               delegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
@@ -115,6 +121,8 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
   void _newItem(Item item) {
     BoxService.addItem(item);
     Navigator.pop(context);
+    _sortItems();
+    setState(() {});
   }
 
   void _openNewItem() {
@@ -128,5 +136,29 @@ class _DictionaryScreenState extends State<DictionaryScreen> {
 
   void _removeItems() {
     //  TODO: remove items from database
+  }
+
+  void _sortItems() {
+    _items.sort((a, b) {
+      if (a.isFavorite == b.isFavorite) {
+        return (a.familyName ?? '').compareTo(b.familyName ?? '');
+      }
+      return a.isFavorite ? -1 : 1;
+    });
+    setState(() {});
+  }
+
+  void _getTags() {
+    for (var item in _items) {
+      print(item.tags);
+      if (item.tags != null) {
+        for (var tag in item.tags!) {
+          if (_tags.contains(tag)) {
+            _tags.add(tag);
+          }
+        }
+      }
+    }
+    _tags.sort((a, b) => a.compareTo(b));
   }
 }
